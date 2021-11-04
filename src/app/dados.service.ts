@@ -10,8 +10,8 @@ import { Ipessoa } from 'src/app/interface/ipessoa';
 export class DadosService{
   constructor(private afa: AngularFireAuth){}
 
-  login(){
-
+  login(user: Ipessoa){
+    return this.afa.signInUserWithEmailAndPassword(user.email, user.senha);
   }
 
   Cadastro(user: Ipessoa){
