@@ -8,18 +8,18 @@
     <ion-card-content>
       <ion-item>
         <ion-label position="floating">Username</ion-label>
-        <ion-input type="name" ></ion-input>
+        <ion-input type="name" [(ngModel)]="userRegister.nome"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label position="floating">Email</ion-label>
-        <ion-input type="email"></ion-input>
+        <ion-input type="email" [(ngModel)]="userRegister.email"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label position="floating" >Senha</ion-label>
-        <ion-input type="password" ></ion-input>
+        <ion-input type="password" [(ngModel)]="userRegister.senha"></ion-input>
       </ion-item>
       <ion-button color="dark" fill="clear" routerLink="/login">Já possuo uma conta!</ion-button>
-      <ion-button color="success" size="full" >Cadastrar</ion-button>
+      <ion-button color="success" size="full" (click)="Cadastrar()">Cadastrar</ion-button>
     </ion-card-content>
   </ion-card>
   </div>
