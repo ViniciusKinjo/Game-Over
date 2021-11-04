@@ -24,6 +24,6 @@ export class DadosService{
   }
 
   getAuth(){
-
+    return this.afa;
   }
 }
