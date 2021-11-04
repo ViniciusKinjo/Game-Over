@@ -1,0 +1,49 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Game Over</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-button expand="block" routerLink="/menu">Menu</ion-button>
+
+
+
+  <ion-fab vertical="top" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="abrirCarrinho()" #cart>
+      <div class="cart-length">{{ quantidadeCarrinho | async }}</div>
+      <ion-icon name="cart" class="cart-icon"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+  <ion-list>
+    <ion-card *ngFor="let p of Produto">
+      <ion-card-header>
+        <img [src]="p.imagem">
+        <ion-card-title>{{ p.nome }}</ion-card-title>
+        <p> {{ p.descricao }}</p>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-row class="ion-align-items-center">
+          <ion-col size="8">
+
+            <ion-label color="secondary">
+              <p>{{p.preco | currency: 'BRL'}}</p>
+            </ion-label>
+          </ion-col>
+          <ion-col size="4" class="ion-text-rigth">
+            <ion-button fill="clear" (click)="addCarrinho(p)">
+              <ion-icon name="add"></ion-icon>
+            </ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-card-content>
+    </ion-card>
+  </ion-list>
+
+
+
+
+</ion-content>
+
+
