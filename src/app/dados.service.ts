@@ -20,7 +20,7 @@ export class DadosService{
   }
 
   logout(){
-
+    return this.afa.signOut();
   }
 
   getAuth(){
