@@ -23,6 +23,10 @@ const routes: Routes = [
     path: 'carrinho',
     loadChildren: () => import('./carrinho/carrinho.module').then( m => m.CarrinhoPageModule)
   },
+  {
+    path: 'sobre',
+    loadChildren: () => import('./sobre/sobre.module').then( m => m.SobrePageModule)
+  },
 ];
 
 @NgModule({
