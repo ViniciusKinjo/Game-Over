@@ -35,11 +35,11 @@ const routes: Routes = [
   },
   {
     path: 'add-produto',
-    loadChildren: () => import('./add-produto/add-produto.module').then( m => m.AddProdutoPageModule)
+    loadChildren: () => import('./add-produto/add-produto.module').then( m => m.AddProdutoPageModule), canActivate: [AuthGuard]
   },
   {
     path: 'add-produto/:id',
-    loadChildren: () => import('./add-produto/add-produto.module').then( m => m.AddProdutoPageModule)
+    loadChildren: () => import('./add-produto/add-produto.module').then( m => m.AddProdutoPageModule), canActivate: [AuthGuard]
   },
 ];
 
