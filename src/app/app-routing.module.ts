@@ -33,6 +33,14 @@ const routes: Routes = [
     path: 'menu',
     loadChildren: () => import('./menu/menu.module').then( m => m.MenuPageModule), canActivate: [AuthGuard]
   },
+  {
+    path: 'add-produto',
+    loadChildren: () => import('./add-produto/add-produto.module').then( m => m.AddProdutoPageModule)
+  },
+  {
+    path: 'add-produto/:id',
+    loadChildren: () => import('./add-produto/add-produto.module').then( m => m.AddProdutoPageModule)
+  },
 ];
 
 @NgModule({

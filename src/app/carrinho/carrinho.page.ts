@@ -1,8 +1,8 @@
-import { ModalController } from '@ionic/angular';
+import { CarrinhoService } from './../service/carrinho.service';
+import { ModalController, AlertController } from '@ionic/angular';
 import { CartService } from './../cart.service';
 import { Component, OnInit } from '@angular/core';
-import { Produto } from '../cart.service';
-import { AlertController } from '@ionic/angular';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-carrinho',
@@ -11,41 +11,29 @@ import { AlertController } from '@ionic/angular';
 })
 export class CarrinhoPage implements OnInit {
   public alertController: AlertController;
+  produtos = [];
 
-  cart: Produto[] = [];
 
-  constructor(alert: AlertController, private CartService: CartService, private modalCtrl: ModalController) {
+  constructor(private alert: AlertController, private CartService: CartService, private modalCtrl: ModalController, private CarrinhoService: CarrinhoService) {
     this.alertController = alert;
    }
 
   ngOnInit() {
-    this.cart = this.CartService.getCarrinho();
-  }
-
-  diminuirCarrinho(Produto){
-    this.CartService.diminuirProduto(Produto);
-  }
-
-  adicioanrCarrinho(Produto){
-    this.CartService.addProduto(Produto);
-  }
-  removeItem(Produto){
-    this.CartService.removerProduto(Produto);
-  }
-
-  getTotal(){
-    return this.cart.reduce((i, j) => i + j.preco * j.quantidade, 0);
+    const CarrinhoItems = this.CarrinhoService.carrinho.value;
+    console.log('carrinho: ', CarrinhoItems);
+    this.CartService.getProdutos().pipe(take(1)).subscribe(TodosProdutos =>{
+      this.produtos = TodosProdutos.filter(p => CarrinhoItems[p.id]).map(produto => {
+        return {...produto, count: CarrinhoItems[produto.id]};
+      });
+      console.log('Produtos: ',this.produtos)
+    });
   }
 
   close(){
     this.modalCtrl.dismiss();
-    }
+  }
 
-    checkout(){
-
-    }
-
-  async alerta(): Promise<void>{
+  async checkout(){
     const alerta = await this.alertController.create({
       header: "Compra",
       message: "Compra realizada com sucesso",
@@ -53,5 +41,8 @@ export class CarrinhoPage implements OnInit {
     });
 
     alerta.present();
+    this.CarrinhoService.checkoutCart();
+    this.modalCtrl.dismiss();
   }
+
 }

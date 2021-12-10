@@ -1,65 +1,35 @@
-<ion-content fullscreen>
-  <div class="ion-text-end">
-    <ion-button (click)="close()" fill="clear" color="dark">
-      <ion-icon name="close" slot="start"></ion-icon>
-    </ion-button>
-  </div>
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-button (click)="close()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Carrinho</ion-title>
+  </ion-toolbar>
+</ion-header>
 
-  <div class="ion-padding">
-    <ion-list>
-      <ion-item *ngFor="let p of cart" class="ion-text-wrap">
-        <ion-grid>
-          <ion-row class="ion-align-items-center">
-            <ion-col size="2" class="ion-align-self-center">
-              <ion-button color="medium" fill="clear" (click)="diminuirCarrinho(p)">
-                <ion-icon name="remove-circle" slot="icon-only"></ion-icon>
-              </ion-button>
-            </ion-col>
+<ion-content>
+  <ion-list>
+    <ion-item *ngFor="let p of produtos">
+      <p slot="start">
+        {{p.count}}
+      </p>
+      <ion-label>
+        {{p.nome}}
+      </ion-label>
 
-            <ion-col size="1" class="ion-align-self-center">
-              {{ p.quantidade }}
-            </ion-col>
-
-            <ion-col size="2" class="ion-align-self-center">
-              <ion-button color="medium" fill="clear" (click)="adicioanrCarrinho(p)">
-                <ion-icon name="add-circle" slot="icon-only"></ion-icon>
-              </ion-button>
-            </ion-col>
-
-            <ion-col size="2" offset="5">
-              <ion-button color="medium" fill="clear" (click)="removeItem(p)">
-                <ion-icon name="close-circle" slot="icon-only"></ion-icon>
-              </ion-button>
-            </ion-col>
-          </ion-row>
-          <ion-row>
-            <ion-col size="9">
-              <img [src]="p.imagem">
-              <p>{{ p.nome }}</p>
-            </ion-col>
-            <ion-col size="3" class="ion-text-end">
-              {{p.preco | currency: 'BRL'}}
-            </ion-col>
-          </ion-row>
-        </ion-grid>
-      </ion-item>
-      <ion-item>
-        <ion-grid>
-          <ion-row>
-            <ion-col size="9">
-              Total:
-            </ion-col>
-            <ion-col size="3" class="ion-text-end">
-              {{ getTotal() | currency: 'BRL'}}
-            </ion-col>
-          </ion-row>
-        </ion-grid>
-      </ion-item>
-    </ion-list>
-
-    <ion-button expand="full" (click)="alerta()">
-      Finalizar
-    </ion-button>
-  </div>
-
+      <ion-avatar slot="end">
+        <ion-img [src]="p.img"></ion-img>
+      </ion-avatar>
+    </ion-item>
+  </ion-list>
 </ion-content>
+
+<ion-footer>
+  <ion-toolbar color="sucess">
+    <ion-button expand="full" (click)="checkout()" fill="clear" color="primary">
+      Checkout
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>

@@ -1,9 +1,11 @@
+import { CarrinhoPageModule } from './../carrinho/carrinho.module';
+import { CarrinhoService } from './../service/carrinho.service';
 import { CarrinhoPage } from './../carrinho/carrinho.page';
-import { BehaviorSubject } from 'rxjs';
-import { CartService, Produto } from './../cart.service';
-import { Component, OnInit } from '@angular/core';
-import { ModalController } from '@ionic/angular';
-
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { CartService } from './../cart.service';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { ModalController, ToastController } from '@ionic/angular';
+import { Produtos } from 'src/app/interface/produtos';
 
 
 
@@ -13,30 +15,58 @@ import { ModalController } from '@ionic/angular';
   styleUrls: ['./principal.page.scss'],
 })
 export class PrincipalPage implements OnInit {
+  ProdutosCarrinho: Observable<any[]>;
+  public produtos = new Array<Produtos>();
+  private productsSubscription: Subscription;
+  cart = {};
 
-  cart = [];
-  Produto = [];
-  quantidadeCarrinho: BehaviorSubject<number>;
 
-  constructor(private CartService: CartService, private modalCtrl: ModalController) {
 
+  constructor(private CartService: CartService, private modalCtrl: ModalController, private toastCtrl: ToastController, private CarrinhoService: CarrinhoService) {
+    this.productsSubscription = this.CartService.getProdutos().subscribe(data =>{
+      this.produtos = data;
+    })
    }
 
   ngOnInit() {
-    this.Produto = this.CartService.getProduto();
-    this.cart = this.CartService.getCarrinho();
-    this.quantidadeCarrinho = this.CartService.getQuantidadeCarrinho();
+    this.ProdutosCarrinho = this.CarrinhoService.getProdutos();
+
+    this.CarrinhoService.carrinho.subscribe(value => {
+      console.log('Meu carrinho: ', value);
+      this.cart = value;
+    })
+
   }
 
-  addCarrinho(Produto){
-    this.CartService.addProduto(Produto);
+
+  async deleteProduto(id: string){
+    try{
+      await this.CartService.deleteProduto(id);
+    } catch(error){
+      this.presentToast('Erro ao tentar deletar');
+    }
   }
 
-  async abrirCarrinho(){
-    let modal = await this.modalCtrl.create({
-      component: CarrinhoPage,
+  async presentToast(message: string){
+    const toast = await this.toastCtrl.create({message, duration: 2000});
+    toast.present();
+  }
+
+  addToCart(event, product){
+    event.stopPropagation();
+    this.CarrinhoService.addToCart(product.id);
+  }
+
+  removeFromCart(event, product){
+    event.stopPropagation();
+    this.CarrinhoService.removeFromCart(product.id);
+  }
+
+  async openCart(){
+    const modal = await this.modalCtrl.create({
+    component: CarrinhoPage
     });
-    modal.present();
+    await modal.present();
   }
 
 }
