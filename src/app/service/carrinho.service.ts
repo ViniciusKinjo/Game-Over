@@ -29,7 +29,6 @@ export class CarrinhoService {
    }
 
   async loadCart(){
-
     const result = await Storage.get({ key: CART_STORAGE_KEY });
     if (result.value) {
       this.cartKey = result.value;
